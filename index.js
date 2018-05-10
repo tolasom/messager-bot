@@ -1,7 +1,6 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-// const PAGE_ACCESS_TOKEN= process.env.PAGE_ACCESS_TOKEN;
 var Config = require('./config');
 var FbHubVerify = require('./controllers/verification');
 const app = express();
@@ -13,11 +12,11 @@ app.get('/privacy', (req, res, next)=> {
 		My privacy is so simple :D
 	`);
 });
-app.post('/webhook',(req,res)=>{
+app.post('/webhook',(req,res,next)=>{
 
 	let body = req.body;
 	if(body.object==='page'){
-		body.entry.forEach(function(entry){
+		body.entry.forEach((entry)=>{
 			let webhook_event= entry.message[0];
 			console.log(webhook_event);
 			//get sender page-scope id
@@ -30,11 +29,6 @@ app.post('/webhook',(req,res)=>{
 		app.status(404);
 	}
 });
-
-// app.get('/Webhook',(req,res)=>{
-// 	const VERIFY_TOKEN = "verify_token";
-// 	res.status(200).send(`Webhook is running`);
-// });
 
 app.listen(Config.PORT,() => console.log('Webhook server is listening on port '+Config.PORT));
 
