@@ -16,7 +16,7 @@ app.post('/webhook',(req,res)=>{
 
 	let body = req.body;
 	if(body.object === 'page'){
-		
+
 		body.entry.forEach((entry)=>{
 			let webhook_event= entry.message[0];
 			console.log(webhook_event);
@@ -25,10 +25,10 @@ app.post('/webhook',(req,res)=>{
 			let sender_psid=webhook_event.sender_psid;
 			console.log('Page-Scope ID'+ sender_psid);
 		});
-		app.status(200).send(`Event_Recieved`);
+		res.status(200).send(`Event_Recieved`);
 	}else
 	{
-		app.status(404);
+		res.status(404);
 	}
 });
 
