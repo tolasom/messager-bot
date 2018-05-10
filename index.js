@@ -5,7 +5,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/', FbHubVerify);
-app.listen(3000,() => console.log('Webhook server is listening on port 3000'));
+app.listen(process.env.ENV,() => console.log('Webhook server is listening on port '+process.env.ENV));
 
 
 
