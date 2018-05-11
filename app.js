@@ -1,4 +1,5 @@
 var express = require('express');
+const request= require('request');
 var app= express();
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
@@ -22,7 +23,21 @@ function callSendAPI(sender_psid,response){
 		},
 		"message": response
 	}
-}
+	//send HTTP request to Messager Platform
+	request({
+		"uri":"https://graph.facebook.com/v2.6/me/messages",
+		"qs":{"access_token": PAGE_ACCESS_TOKEN},
+		"method" : "POST",
+		"json" : request_body
+	}, (err,res,body)=>{
+		if(!err){
+			console.log('message send!')
+		}else{
+			console.log('unnable to send message:'+ err);
+		}
+	});
+
+
 app.post('/webhook',(req,res,next)=>{
 	let body = req.body;
 	if(body.object==='page'){
