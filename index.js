@@ -1,9 +1,8 @@
-
-const express = require('express');
-const bodyParser = require('body-parser');
+var express = require('express');
+var bodyParser = require('body-parser');
 var Config = require('./config');
 var FbHubVerify = require('./controllers/verification');
-const app = express();
+var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.get('/',FbHubVerify);
