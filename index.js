@@ -11,25 +11,6 @@ app.get('/privacy', (req, res, next)=> {
 		My privacy is so simple :D
 	`);
 });
-app.post('/webhook',(req,res)=>{
-
-	let body = req.body;
-	if(body.object === 'page'){
-
-		body.entry.forEach((entry)=>{
-			let webhook_event= entry.message[0];
-			console.log(webhook_event);
-			
-			//get sender page-scope id
-			let sender_psid=webhook_event.sender_psid;
-			console.log('Page-Scope ID'+ sender_psid);
-		});
-		res.status(200).send(`Event_Recieved`);
-	}else
-	{
-		res.status(404);
-	}
-});
 
 app.listen(Config.PORT,() => console.log('Webhook server is listening on port '+Config.PORT));
 
