@@ -11,10 +11,18 @@ app.post('/webhook',(req,res,next)=>{
 		body.entry.forEach(function(entry){
 			let webhook_event= entry.messaging[0];
 			console.log(webhook_event);
+			res.status(200).send(`EVENT_RECIEVED`);
+			let sender_psid= webhook_event.sender.id;
+			console.log('Sender PSID'+sender_psid);
+
+			if(webhook_event.message){
+			handleMessage(sender_psid,webhook_event.message);
+			}else if(webhook_event.postback){
+			handlePostback(sender_psid,webhook_event.postback);
+			}
 		});
-		res.status(200).send(`EVENT_RECIEVED`);
-		let sender_psid= webhook_event.sender.id;
-		console.log('Sender PSID'+sender_psidr);
+
+
 	}else{
 		res.status(404);
 	}
