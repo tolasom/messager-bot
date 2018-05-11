@@ -2,9 +2,27 @@ var express = require('express');
 var app= express();
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
-function handleMessage(sender_psid,recieved_message){}
+function handleMessage(sender_psid,recieved_message){
+	let response;
+	//check if the message contain text
+	if(recieved_message.text){
+		//create payload for basic text message
+		response= {
+			"text" : ` You sent the message: "${recieved_message.text}". Now send me an image!`
+		}
+	}
+	//send the response message
+	callSendAPI(sender_psid,response);
+}
 function handlePostback(sender_psid,recieved_postback){}
-function callSendAPI(sender_psid,response){}
+function callSendAPI(sender_psid,response){
+	let request_body = {
+		"recipient":{
+			"id": sender_psid
+		},
+		"message": response
+	}
+}
 app.post('/webhook',(req,res,next)=>{
 	let body = req.body;
 	if(body.object==='page'){
@@ -21,9 +39,8 @@ app.post('/webhook',(req,res,next)=>{
 			handlePostback(sender_psid,webhook_event.postback);
 			}
 		});
-
-
-	}else{
+	}
+	else{
 		res.status(404);
 	}
 });
